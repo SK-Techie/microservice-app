@@ -22,8 +22,6 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 sh 'mvn clean package -DskipTests'
-                // keep a copy of the built jar for docker build
-                sh 'cp target/*.jar .'
                 echo "✅ Stage: Maven build done"
             }
         }
@@ -63,4 +61,4 @@ pipeline {
             }
         }
     }
-}   // 👈 final closing brace for pipeline
+}
