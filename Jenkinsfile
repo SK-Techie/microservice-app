@@ -22,8 +22,18 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 sh 'mvn clean package -DskipTests'
-                // Pick up any shaded JAR regardless of version
-                sh 'cp target/*-shaded.jar app.jar'
+                // Dynamically find shaded JAR and copy to app.jar
+                sh '''
+                    JAR_FILE=$(ls target/*-shaded.jar | head -n 1)
+                    if [ -f "$JAR_FILE" ]; then
+                      cp "$JAR_FILE" app.jar
+                      echo "✅ Shaded JAR copied as app.jar"
+                    else
+                      echo "❌ Shaded JAR not found in target/"
+                      ls -l target/
+                      exit 1
+                    fi
+                '''
                 echo "✅ Stage: Maven build done"
             }
         }
