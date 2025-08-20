@@ -5,7 +5,7 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy the fat JAR (built by Maven) into the container
-COPY target/microservice-app-1.0.0-shaded.jar app.jar
+COPY target/*.jar app.jar
 
 # Expose the application port (default: 8080)
 EXPOSE 8080
