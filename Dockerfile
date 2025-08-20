@@ -1,5 +1,5 @@
-# Use a lightweight JRE base image
-FROM openjdk:17-jre-slim
+# Use a lightweight OpenJDK runtime base image
+FROM openjdk:17-jre-slim-bullseye
 
 # Set the working directory
 WORKDIR /app
@@ -7,13 +7,8 @@ WORKDIR /app
 # Copy the JAR file produced by Jenkins
 COPY app.jar app.jar
 
-# Create non-root user for security
-RUN addgroup --system appgroup && adduser --system appuser --ingroup appgroup
-USER appuser
+# Expose the application port (default: 8080)
+EXPOSE 8080
 
-# Configurable application port
-ENV PORT=8080
-EXPOSE $PORT
-
-# Run the JAR
+# Run the JAR file
 ENTRYPOINT ["java", "-jar", "app.jar"]
