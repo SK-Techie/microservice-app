@@ -4,8 +4,8 @@ FROM openjdk:17-jdk-slim
 # Set the working directory
 WORKDIR /app
 
-# Copy the shaded JAR (from workspace root) into the container
-COPY *.jar app.jar
+# Copy only the shaded JAR into the container
+COPY *-shaded.jar app.jar
 
 # Expose the application port (default: 8080)
 EXPOSE 8080
