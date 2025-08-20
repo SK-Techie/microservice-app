@@ -22,8 +22,8 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 sh 'mvn clean package -DskipTests'
-                // Rename shaded JAR for Dockerfile
-                sh 'cp target/microservice-app-1.0.0-shaded.jar app.jar'
+                // Pick up any shaded JAR regardless of version
+                sh 'cp target/*-shaded.jar app.jar'
                 echo "✅ Stage: Maven build done"
             }
         }
