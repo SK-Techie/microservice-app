@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven3.9.5'   // 👈 this name must match the Maven installation name in Jenkins
+        maven 'Maven3.9.5'
     }
 
     environment {
@@ -35,4 +35,30 @@ pipeline {
 
         stage('Login to ECR') {
             steps {
-                wi
+                withCredentials([usernamePassword(credentialsId: 'aws-ecr-creds',
+                                                  usernameVariable: 'AWS_ACCESS_KEY_ID',
+                                                  passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                    sh '''
+                        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+                        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+                        aws configure set region $AWS_REGION
+
+                        aws ecr get-login-password --region $AWS_REGION | \
+                          docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                    '''
+                }
+            }
+        }
+
+        stage('Push to ECR') {
+            steps {
+                echo "✅ Stage: Push to ECR started"
+                sh '''
+                    docker tag myapp:latest $ECR_REPO:latest
+                    docker push $ECR_REPO:latest
+                '''
+                echo "✅ Stage: Push to ECR done"
+            }
+        }
+    }
+}   // 👈 final closing brace for pipeline
