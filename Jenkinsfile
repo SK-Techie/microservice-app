@@ -22,16 +22,20 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 sh 'mvn clean package -DskipTests'
-                // Dynamically find shaded JAR and copy to app.jar
+                // Find shaded JAR or fallback to regular JAR
                 sh '''
-                    JAR_FILE=$(ls target/*-shaded.jar | head -n 1)
+                    JAR_FILE=$(ls target/*-shaded.jar 2>/dev/null | head -n 1)
+                    if [ -z "$JAR_FILE" ]; then
+                        echo "⚠ Shaded JAR not found, using regular JAR"
+                        JAR_FILE=$(ls target/*.jar | grep -v original | head -n 1)
+                    fi
                     if [ -f "$JAR_FILE" ]; then
-                      cp "$JAR_FILE" app.jar
-                      echo "✅ Shaded JAR copied as app.jar"
+                        cp "$JAR_FILE" app.jar
+                        echo "✅ JAR copied as app.jar: $JAR_FILE"
                     else
-                      echo "❌ Shaded JAR not found in target/"
-                      ls -l target/
-                      exit 1
+                        echo "❌ No JAR found to copy"
+                        ls -l target/
+                        exit 1
                     fi
                 '''
                 echo "✅ Stage: Maven build done"
