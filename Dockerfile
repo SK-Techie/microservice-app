@@ -4,8 +4,8 @@ FROM openjdk:17-jdk-slim
 # Set the working directory
 WORKDIR /app
 
-# Copy the fat JAR (built by Maven) into the container
-COPY target/*.jar app.jar
+# Copy only the fat JAR (shaded jar) built by Maven
+COPY target/*-shaded.jar app.jar
 
 # Expose the application port (default: 8080)
 EXPOSE 8080
