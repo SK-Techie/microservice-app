@@ -4,8 +4,8 @@ FROM openjdk:17-jdk-slim
 # Set the working directory
 WORKDIR /app
 
-# Copy only the shaded JAR into the container
-COPY *-shaded.jar app.jar
+# Copy the JAR file produced by Jenkins (renamed to app.jar)
+COPY app.jar app.jar
 
 # Expose the application port (default: 8080)
 EXPOSE 8080
