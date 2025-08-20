@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/malir001/microservice-app.git'
+                git branch: 'main', url: 'https://github.com/SK-Techie/microservice-app.git'
                 echo "✅ Stage: Checkout done"
             }
         }
