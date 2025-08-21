@@ -62,8 +62,13 @@ pipeline {
 
         stage('Push to ECR') {
             steps {
-                echo "🚀 Pushing Docker image to ECR"
+                echo "🚀 Ensuring ECR repository exists and pushing Docker image"
                 sh '''
+                    # Create ECR repository if it does not exist
+                    aws ecr describe-repositories --repository-names myapp --region $AWS_REGION || \
+                    aws ecr create-repository --repository-name myapp --region $AWS_REGION
+
+                    # Tag and push Docker image
                     docker tag myapp:latest $ECR_REPO:latest
                     docker push $ECR_REPO:latest
                 '''
