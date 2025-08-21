@@ -11,7 +11,7 @@
   <packaging>jar</packaging>
 
   <name>Microservice App</name>
-  <description>A sample Java microservice app to build and Dockerize with Jenkins</description>
+  <description>A simple Java microservice app to build and Dockerize with Jenkins</description>
 
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
@@ -22,9 +22,9 @@
   <dependencies>
     <!-- JUnit for Testing -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.10.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -57,4 +57,13 @@
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>com.growingflowers.app.App</mainClass>
-                </tran
+                </transformer>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
