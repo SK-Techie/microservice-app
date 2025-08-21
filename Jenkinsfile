@@ -51,10 +51,10 @@ pipeline {
 
         stage('Login to ECR') {
             steps {
-                // Use EC2 IAM role for authentication, no credentials plugin needed
+                echo "🔑 Logging into ECR using EC2 IAM Role"
                 sh '''
                     aws ecr get-login-password --region $AWS_REGION | \
-                    docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                    docker login --username AWS --password-stdin $ECR_REPO
                     echo "✅ Logged in to ECR"
                 '''
             }
@@ -62,12 +62,12 @@ pipeline {
 
         stage('Push to ECR') {
             steps {
-                echo "✅ Stage: Push to ECR started"
+                echo "🚀 Pushing Docker image to ECR"
                 sh '''
                     docker tag myapp:latest $ECR_REPO:latest
                     docker push $ECR_REPO:latest
                 '''
-                echo "✅ Stage: Push to ECR done"
+                echo "✅ Docker image pushed to ECR"
             }
         }
     }
