@@ -51,12 +51,12 @@ pipeline {
 
         stage('Login to ECR') {
             steps {
-                withAWS(credentials: 'aws-ecr-creds', region: "$AWS_REGION") {
-                    sh '''
-                        aws ecr get-login-password --region $AWS_REGION | \
-                        docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
-                    '''
-                }
+                // Use EC2 IAM role for authentication, no credentials plugin needed
+                sh '''
+                    aws ecr get-login-password --region $AWS_REGION | \
+                    docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+                    echo "✅ Logged in to ECR"
+                '''
             }
         }
 
