@@ -16,7 +16,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.2.4</version> <!-- latest stable at the time -->
+    <version>3.2.4</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -38,7 +38,7 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- Testing with JUnit + Spring Boot -->
+    <!-- Testing -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -48,19 +48,11 @@
 
   <build>
     <plugins>
-      <!-- Spring Boot Maven Plugin -->
+      <!-- Spring Boot Maven Plugin (creates runnable jar automatically) -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
-
-      <!-- Shade Plugin for Fat Jar -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.5.1</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>
+    </plugins>
+  </build>
+</project>
