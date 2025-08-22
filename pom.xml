@@ -1,73 +1,66 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"  
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0  
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
-  <modelVersion>4.0.0</modelVersion> 
- 
-  <groupId>com.example.microservice 
-</groupId> 
-  <artifactId>microservice-app</artifactId> 
-  <version>1.0.0</version> 
-  <packaging>jar</packaging> 
- 
-  <name>Microservice App</name> 
-  <description>A sample Java microservice app to build and Dockerize with 
-Jenkins</description> 
- 
-  <properties> 
-    <maven.compiler.source>11</maven.compiler.source> 
-    <maven.compiler.target>11</maven.compiler.target> 
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
-  </properties> 
- 
-  <dependencies> 
-    <!-- JUnit for Testing --> 
-    <dependency> 
-      <groupId>junit</groupId> 
-      <artifactId>junit</artifactId> 
-      <version>4.13.2</version> 
-      <scope>test</scope> 
-    </dependency> 
-     
-    <!-- (Optional) Add Spring Boot or any other framework here --> 
-  </dependencies> 
- 
-  <build> 
-    <plugins> 
-      <!-- Compiler Plugin --> 
-      <plugin> 
-        <groupId>org.apache.maven.plugins</groupId> 
-        <artifactId>maven-compiler-plugin</artifactId> 
-        <version>3.11.0</version> 
-        <configuration> 
-          <source>${maven.compiler.source}</source> 
-          <target>${maven.compiler.target}</target> 
-        </configuration> 
-      </plugin> 
- 
-      <!-- (Optional) Shade Plugin for Fat Jar --> 
-      <plugin> 
-        <groupId>org.apache.maven.plugins</groupId> 
-        <artifactId>maven-shade-plugin</artifactId> 
-        <version>3.5.1</version> 
-        <executions> 
-          <execution> 
-            <phase>package</phase> 
-            <goals> 
-              <goal>shade</goal> 
-            </goals> 
-            <configuration> 
-              <transformers> 
-                <transformer 
-implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"
- > 
-                  <mainClass>com.growingflowers.app.App</mainClass> 
-                </transformer> 
-              </transformers> 
-            </configuration> 
-          </execution> 
-        </executions> 
-      </plugin> 
-    </plugins> 
-  </build> 
-</project> 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.example.microservice</groupId>
+  <artifactId>microservice-app</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>Microservice App</name>
+  <description>A sample Java microservice app to build and Dockerize with Jenkins</description>
+
+  <!-- Spring Boot Parent -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.2.4</version> <!-- latest stable at the time -->
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+  <properties>
+    <java.version>11</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <!-- Spring Boot core -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+
+    <!-- For REST controllers -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- Testing with JUnit + Spring Boot -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Spring Boot Maven Plugin -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+      <!-- Shade Plugin for Fat Jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>
